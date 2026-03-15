@@ -343,7 +343,7 @@
                 </div>
 
                 <!-- Product 2 -->
-                <div class="glass-card rounded-2xl overflow-hidden group gsap-hidden product-card" data-category="smartphone">
+                <div class="glass-card rounded-2xl overflow-hidden group gsap-hidden product-card" data-category="audio">
                     <div class="relative h-64 bg-gray-800 overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1606220838315-056192d5e927?q=80&w=600&auto=format&fit=crop" alt="Headphones" class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700">
                     </div>
@@ -788,21 +788,20 @@
         });
         function filterProducts(category){
 
-        const products = document.querySelectorAll('.product-card');
+			const products = document.querySelectorAll('.product-card');
+			products.forEach(product => {
 
-        products.forEach(product => {
+				if(category === "all"){
+					product.style.display = "block";
+				}
+				else if(product.dataset.category === category){
+					product.style.display = "block";
+				}
+				else{
+					product.style.display = "none";
+				}
 
-        if(category === "all"){
-        product.style.display = "block";
-        }
-        else if(product.dataset.category === category){
-        product.style.display = "block";
-        }
-        else{
-        product.style.display = "none";
-        }
-
-        });
+			});
 
         }
 		// FLASH SALE TIMER
