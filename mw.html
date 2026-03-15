@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOBILEWALA - Premium Electronic Appliances</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+					colors: {
+						primary: '#2563eb', // Professional Blue
+						secondary: '#dc2626', // Strong Red
+						dark: '#0f172a',
+						darker: '#020617',
+						whatsapp: '#25D366'
+					}
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Glassmorphism */
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .glass {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.4) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .glass-card:hover {
+			transform: translateY(-8px) scale(1.02);
+			box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.4);
+			border-color: rgba(220, 38, 38, 0.4);
+		}
+
+        .text-gradient {
+			  background: linear-gradient(90deg, #2563eb, #dc2626);
+			  -webkit-background-clip: text;
+			  -webkit-text-fill-color: transparent;
+		}
+
+        .bg-gradient-custom {
+			background: linear-gradient(135deg, #2563eb 0%, #dc2626 100%);
+		}
+
+        .neon-btn {
+            position: relative;
+            transition: all 0.3s ease;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .neon-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+            z-index: -1;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .neon-btn:hover::before {
+            opacity: 1;
+        }
+
+        .neon-btn:hover {
+			box-shadow: 0 0 20px rgba(37, 99, 235, 0.6),
+						0 0 40px rgba(220, 38, 38, 0.4);
+			transform: translateY(-2px);
+		}
+
+        /* Subtle glowing orb background effect */
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        .orb-1 {
+            top: -10%; left: -10%;
+            width: 40vw; height: 40vw;
+            background: rgba(6, 182, 212, 0.3);
+        }
+
+        .orb-2 {
+            bottom: 20%; right: -5%;
+            width: 35vw; height: 35vw;
+            background: rgba(220, 38, 38, 0.25);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
+
+        /* Hide content initially for GSAP */
+        .gsap-hidden {
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-primary selection:text-white relative">
+
+    <!-- Background Orbs -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 glass transition-all duration-300 py-4">
+        <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="text-2xl font-bold tracking-wider text-white flex items-center gap-2 nav-brand">
+                <i class="fa-solid fa-bolt text-primary"></i>
+                MOBILE<span class="text-5xl font-bold bg-gradient-to-r from-blue-600 via-white to-red-600 bg-clip-text text-transparent">WALA</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <ul class="hidden md:flex space-x-8 font-medium text-sm text-gray-300 nav-links">
+                <li><a href="#home" class="hover:text-primary transition-colors">Home</a></li>
+                <li><a href="#categories" class="hover:text-primary transition-colors">Categories</a></li>
+                <li><a href="#products" class="hover:text-primary transition-colors">Products</a></li>
+                <li><a href="#offers" class="hover:text-primary transition-colors">Offers</a></li>
+                <li><a href="#about" class="hover:text-primary transition-colors">About</a></li>
+                <li><a href="#contact" class="hover:text-primary transition-colors">Contact</a></li>
+            </ul>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-gray-300 hover:text-white focus:outline-none text-2xl nav-brand">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full glass border-t border-gray-800 flex flex-col items-center py-6 space-y-4 shadow-xl">
+            <a href="#home" class="mobile-link text-gray-300 hover:text-primary transition-colors">Home</a>
+            <a href="#categories" class="mobile-link text-gray-300 hover:text-primary transition-colors">Categories</a>
+            <a href="#products" class="mobile-link text-gray-300 hover:text-primary transition-colors">Products</a>
+            <a href="#offers" class="mobile-link text-gray-300 hover:text-primary transition-colors">Offers</a>
+            <a href="#about" class="mobile-link text-gray-300 hover:text-primary transition-colors">About</a>
+            <a href="#contact" class="mobile-link text-gray-300 hover:text-primary transition-colors">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <div class="container mx-auto px-6 md:px-12 grid md:grid-cols-2 gap-12 items-center">
+            <!-- Text Content -->
+            <div class="hero-content space-y-6 z-10 gsap-hidden">
+                <span class="inline-block py-1 px-3 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold tracking-wide uppercase">
+                    New Arrivals 2026
+                </span>
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
+                    Latest Electronics at the <span class="text-gradient">Best Price</span>
+                </h1>
+                <p class="text-gray-400 text-lg md:text-xl max-w-lg leading-relaxed">
+                    Discover premium smartphones, smartwatches, and next-gen audio devices. Upgrade your tech lifestyle with MobileWala's exclusive collections.
+                </p>
+                <div class="flex flex-wrap gap-4 pt-4">
+                    <a href="#products" class="bg-gradient-custom text-white px-8 py-3 rounded-lg font-semibold neon-btn shadow-lg">
+                        Shop Now <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </a>
+                    <a href="#offers" class="glass text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/5 transition-colors border border-gray-700 hover:border-primary/50">
+                        View Offers
+                    </a>
+                </div>
+                
+                <!-- Stats -->
+                <div class="flex gap-8 pt-8 border-t border-gray-800 mt-8">
+                    <div>
+                        <h4 class="text-3xl font-bold text-white">5k+</h4>
+                        <p class="text-gray-500 text-sm">Products Sold</p>
+                    </div>
+                    <div>
+                        <h4 class="text-3xl font-bold text-white">4.9</h4>
+                        <p class="text-gray-500 text-sm flex items-center gap-1">
+                            <i class="fa-solid fa-star text-yellow-500 text-xs"></i> Rating
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image/Visual Content -->
+            <div class="hero-image relative z-10 gsap-hidden">
+                <!-- Abstract floating tech composition using simple HTML/CSS as placeholder -->
+                <div class="relative w-full aspect-square max-w-lg mx-auto">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-secondary/20 rounded-full blur-3xl animate-pulse"></div>
+                    
+                    <!-- Main Phone Placeholder -->
+                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 md:w-64 aspect-[1/2] glass-card rounded-3xl border-4 border-gray-800 shadow-2xl flex flex-col overflow-hidden z-20" style="animation: float 6s ease-in-out infinite;">
+                        <div class="h-6 w-full bg-gray-900 flex justify-center items-center">
+                            <div class="w-16 h-2 bg-gray-950 rounded-full mt-2"></div>
+                        </div>
+                        <div class="flex-1 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?q=80&w=800&auto=format&fit=crop');">
+                            <!-- Overlay -->
+                            <div class="w-full h-full bg-gradient-to-t from-darker to-transparent opacity-80 flex items-end p-4">
+                                <p class="font-semibold text-white">Pro Max</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Secondary Device (Earbuds) -->
+                    <div class="absolute bottom-1/4 right-0 w-24 h-24 glass-card rounded-2xl border border-gray-700 shadow-xl flex items-center justify-center z-30" style="animation: float 5s ease-in-out infinite reverse;">
+                        <i class="fa-solid fa-ear-listen text-4xl text-primary drop-shadow-[0_0_10px_rgba(6,182,212,0.8)]"></i>
+                    </div>
+
+                    <!-- Secondary Device (Watch) -->
+                    <div class="absolute top-1/4 left-0 w-28 h-28 glass-card rounded-full border border-gray-700 shadow-xl flex items-center justify-center z-30" style="animation: float 7s ease-in-out infinite 1s;">
+                        <i class="fa-regular fa-clock text-5xl text-secondary drop-shadow-[0_0_10px_rgba(139,92,246,0.8)]"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="categories" class="py-20 relative">
+        <div class="container mx-auto px-6 md:px-12 section-container">
+            <div class="text-center mb-16 gsap-hidden section-header">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Shop by <span class="text-gradient">Category</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Browse our wide range of electronic categories designed to suit your tech needs.</p>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Category 1 -->
+                <a href="#" onclick="filterProducts('smartphone')" class="glass-card rounded-2xl p-6 text-center group gsap-hidden category-card">
+                    <div class="w-16 h-16 mx-auto bg-gray-800 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                        <i class="fa-solid fa-mobile-screen-button text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-1 group-hover:text-primary transition-colors">Smartphones</h3>
+                    <p class="text-gray-500 text-sm">120+ Products</p>
+                </a>
+
+                <!-- Category 2 -->
+                <a href="#" onclick="filterProducts('audio')" class="glass-card rounded-2xl p-6 text-center group gsap-hidden category-card">
+                    <div class="w-16 h-16 mx-auto bg-gray-800 rounded-full flex items-center justify-center mb-4 group-hover:bg-secondary/20 transition-colors">
+                        <i class="fa-solid fa-headphones-simple text-2xl text-secondary"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-1 group-hover:text-secondary transition-colors">Audio Devices</h3>
+                    <p class="text-gray-500 text-sm">85+ Products</p>
+                </a>
+
+                <!-- Category 3 -->
+                <a href="#" onclick="filterProducts('watch')" class="glass-card rounded-2xl p-6 text-center group gsap-hidden category-card">
+                    <div class="w-16 h-16 mx-auto bg-gray-800 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                        <i class="fa-solid fa-stopwatch text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-1 group-hover:text-primary transition-colors">Smart Watches</h3>
+                    <p class="text-gray-500 text-sm">45+ Products</p>
+                </a>
+
+                <!-- Category 4 -->
+                <a href="#" onclick="filterProducts('accessories')" class="glass-card rounded-2xl p-6 text-center group gsap-hidden category-card">
+                    <div class="w-16 h-16 mx-auto bg-gray-800 rounded-full flex items-center justify-center mb-4 group-hover:bg-secondary/20 transition-colors">
+                        <i class="fa-solid fa-gamepad text-2xl text-secondary"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-1 group-hover:text-secondary transition-colors">Accessories</h3>
+                    <p class="text-gray-500 text-sm">300+ Products</p>
+                </a>
+
+                <a href="#" class="glass-card rounded-2xl p-6 text-center group gsap-hidden category-card">
+                    <button onclick="filterProducts('all')" class="bg-primary px-4 py-2 rounded-lg">Show All</button>
+                    <h3 class="font-semibold text-lg mb-1 group-hover:text-secondary transition-colors">Products</h3>
+                    <p class="text-gray-500 text-sm">All Types Of Product</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section id="products" class="py-20 relative bg-dark/50">
+        <div class="container mx-auto px-6 md:px-12 section-container">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gsap-hidden section-header">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Featured <span class="text-gradient">Products</span></h2>
+                    <p class="text-gray-400">Our top picks just for you.</p>
+                </div>
+                <a href="#" class="text-primary hover:text-white transition-colors mt-4 md:mt-0 font-medium">View All <i class="fa-solid fa-arrow-right ml-1 text-sm"></i></a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Product 1 -->
+                <!-- CHANGE HERE : add smartphone category -->
+                <div class="glass-card rounded-2xl overflow-hidden group gsap-hidden product-card" data-category="smartphone">
+                    <div class="relative h-64 bg-gray-800 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?q=80&w=600&auto=format&fit=crop" alt="Phone" class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 right-4 bg-secondary text-white text-xs font-bold px-2 py-1 rounded animate-pulse">NEW</div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Smartphone</p>
+                        <h3 class="text-xl font-semibold mb-2 text-white">Galaxy Ultra Pro X</h3>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-2xl font-bold text-primary">₹1,199</span>
+                            <div class="flex text-yellow-500 text-xs">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                            </div>
+                        </div>
+                        <a href="https://wa.me/919876543210?text=Hello,%20I'm%20interested%20in%20ordering%20the%20Galaxy%20Ultra%20Pro%20X%20(₹1,199)" target="_blank" class="w-full block text-center bg-whatsapp/10 hover:bg-whatsapp border border-whatsapp/30 hover:border-whatsapp text-white py-2 rounded-lg transition-all duration-300 font-medium group/btn shadow-[0_0_15px_rgba(37,211,102,0.1)] hover:shadow-[0_0_20px_rgba(37,211,102,0.4)]">
+                            Order on WhatsApp <i class="fa-brands fa-whatsapp ml-2 text-lg opacity-80 group-hover/btn:opacity-100"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <!-- CHANGE HERE : add smartphone category -->
+                <div class="glass-card rounded-2xl overflow-hidden group gsap-hidden product-card" data-category="smartphone">
+                    <div class="relative h-64 bg-gray-800 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1606220838315-056192d5e927?q=80&w=600&auto=format&fit=crop" alt="Headphones" class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Audio</p>
+                        <h3 class="text-xl font-semibold mb-2 text-white">Sonic Bass Over-Ear</h3>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-2xl font-bold text-primary">₹249</span>
+                            <div class="flex text-yellow-500 text-xs">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                        <a href="https://wa.me/9426440952?text=Hello,%20I'm%20interested%20in%20ordering%20the%20Sonic%20Bass%20Over-Ear%20(₹249)" target="_blank" class="w-full block text-center bg-whatsapp/10 hover:bg-whatsapp border border-whatsapp/30 hover:border-whatsapp text-white py-2 rounded-lg transition-all duration-300 font-medium group/btn shadow-[0_0_15px_rgba(37,211,102,0.1)] hover:shadow-[0_0_20px_rgba(37,211,102,0.4)]">
+                            Order on WhatsApp <i class="fa-brands fa-whatsapp ml-2 text-lg opacity-80 group-hover/btn:opacity-100"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="glass-card rounded-2xl overflow-hidden group gsap-hidden product-card" data-category="watch">
+                    <div class="relative h-64 bg-gray-800 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?q=80&w=600&auto=format&fit=crop" alt="Watch" class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 right-4 bg-red-500/90 text-white text-xs font-bold px-2 py-1 rounded backdrop-blur-sm">-15%</div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Wearable</p>
+                        <h3 class="text-xl font-semibold mb-2 text-white">FitWatch Series 8</h3>
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="flex flex-col">
+                                <span class="text-xs text-gray-500 line-through">₹399</span>
+                                <span class="text-2xl font-bold text-primary">₹339</span>
+                            </div>
+                            <div class="flex text-yellow-500 text-xs">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                            </div>
+                        </div>
+                        <a href="https://wa.me/9426440952?text=Hello,%20I'm%20interested%20in%20ordering%20the%20FitWatch%20Series%208%20(₹339)" target="_blank" class="w-full block text-center bg-whatsapp/10 hover:bg-whatsapp border border-whatsapp/30 hover:border-whatsapp text-white py-2 rounded-lg transition-all duration-300 font-medium group/btn shadow-[0_0_15px_rgba(37,211,102,0.1)] hover:shadow-[0_0_20px_rgba(37,211,102,0.4)]">
+                            Order on WhatsApp <i class="fa-brands fa-whatsapp ml-2 text-lg opacity-80 group-hover/btn:opacity-100"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="glass-card rounded-2xl overflow-hidden group gsap-hidden product-card" data-category="accessories">
+                    <div class="relative h-64 bg-gray-800 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db?q=80&w=600&auto=format&fit=crop" alt="Console" class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-400 text-xs uppercase tracking-wider mb-1">Gaming</p>
+                        <h3 class="text-xl font-semibold mb-2 text-white">PlayBox Station 5</h3>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-2xl font-bold text-primary">₹499</span>
+                            <div class="flex text-yellow-500 text-xs">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                        <a href="https://wa.me/9426440952?text=Hello,%20I'm%20interested%20in%20ordering%20the%20PlayBox%20Station%205%20(₹499)" target="_blank" class="w-full block text-center bg-whatsapp/10 hover:bg-whatsapp border border-whatsapp/30 hover:border-whatsapp text-white py-2 rounded-lg transition-all duration-300 font-medium group/btn shadow-[0_0_15px_rgba(37,211,102,0.1)] hover:shadow-[0_0_20px_rgba(37,211,102,0.4)]">
+                            Order on WhatsApp <i class="fa-brands fa-whatsapp ml-2 text-lg opacity-80 group-hover/btn:opacity-100"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offers Section -->
+    <section id="offers" class="py-20 relative">
+        <div class="container mx-auto px-6 md:px-12 section-container">
+            <div class="relative rounded-3xl overflow-hidden bg-gray-900 shadow-2xl border border-gray-800 gsap-hidden offer-banner">
+                <!-- Background Image & Gradient overlay -->
+                <div class="absolute inset-0 z-0">
+                    <img src="https://images.unsplash.com/photo-1550009158-9ba16ffaacfa?q=80&w=1200&auto=format&fit=crop" alt="Electronics" class="w-full h-full object-cover opacity-30">
+                    <div class="absolute inset-0 bg-gradient-to-r from-darker via-darker/90 to-transparent"></div>
+                </div>
+                
+                <div class="relative z-10 p-8 md:p-16 md:w-2/3 lg:w-1/2">
+                    <span class="bg-secondary/20 text-secondary border border-secondary/30 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 inline-block">Limited Time Deal</span>
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4">Flash Sale! Up to <span class="text-gradient">50% OFF</span></h2>
+                    <p class="text-gray-300 mb-8 text-lg">Upgrade your devices without breaking the bank. Massive discounts on top brands across all categories. Hurry, offer ends soon!</p>
+                    
+                    <!-- Countdown Placeholder -->
+                    <div class="flex gap-4 mb-8">
+                        <div class="glass text-center p-3 rounded-xl min-w-[70px]">
+                            <span class="block text-2xl font-bold text-white">03</span>
+                            <span class="text-xs text-gray-400">Days</span>
+                        </div>
+                        <div class="glass text-center p-3 rounded-xl min-w-[70px]">
+                            <span class="block text-2xl font-bold text-white">14</span>
+                            <span class="text-xs text-gray-400">Hours</span>
+                        </div>
+                        <div class="glass text-center p-3 rounded-xl min-w-[70px]">
+                            <span class="block text-2xl font-bold text-white">45</span>
+                            <span class="text-xs text-gray-400">Mins</span>
+                        </div>
+                    </div>
+
+                    <a href="#products" class="inline-block bg-white text-dark font-bold px-8 py-3 rounded-lg hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                        Claim Offer
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 relative bg-dark/30">
+        <div class="container mx-auto px-6 md:px-12 section-container">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1 relative gsap-hidden about-image">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-primary to-secondary rounded-2xl blur-2xl opacity-20"></div>
+                    <img src="https://images.unsplash.com/photo-1556656793-08538906a9f8?q=80&w=800&auto=format&fit=crop" alt="Mobilewala Store" class="rounded-2xl relative z-10 border border-gray-800 shadow-2xl">
+                    
+                    <!-- Floating Badge -->
+                    <div class="absolute -bottom-6 -right-6 glass-card p-4 rounded-xl z-20 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-custom flex items-center justify-center text-white text-xl font-bold">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <div>
+                            <p class="text-white font-bold text-lg">10+ Years</p>
+                            <p class="text-gray-400 text-xs">Of Excellence</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-1 md:order-2 gsap-hidden about-text">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">About <span class="text-gradient">MOBILEWALA</span></h2>
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        Established in 2016, MOBILEWALA has grown to become the premier destination for high-quality electronic appliances and tech gadgets. We believe in bridging the gap between cutting-edge technology and everyday consumers.
+                    </p>
+                    <p class="text-gray-400 mb-8 leading-relaxed">
+                        Our mission is to provide an unparalleled shopping experience, offering authentic products, competitive pricing, and exceptional after-sales service. When you shop with MOBILEWALA, you are guaranteed peace of mind.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-3 text-gray-300">
+                            <i class="fa-solid fa-circle-check text-primary"></i> 100% Original Products
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-300">
+                            <i class="fa-solid fa-circle-check text-primary"></i> 1 Year Minimum Warranty
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-300">
+                            <i class="fa-solid fa-circle-check text-primary"></i> 24/7 Dedicated Customer Support
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 relative">
+        <div class="container mx-auto px-6 md:px-12 section-container">
+            <div class="text-center mb-16 gsap-hidden section-header">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Get in <span class="text-gradient">Touch</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Have questions? We're here to help. Reach out to our team or visit our store.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-12">
+                <!-- Contact Info -->
+                <div class="lg:col-span-1 space-y-6 gsap-hidden contact-info">
+                    <div class="glass-card p-6 rounded-2xl flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary flex-shrink-0 text-xl">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-semibold mb-1">Our Store</h4>
+                            <p class="text-gray-400 text-sm">123 Tech Avenue, Cyber Hub Sector,<br>New Delhi, 110001</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center text-secondary flex-shrink-0 text-xl">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-semibold mb-1">Phone</h4>
+                            <p class="text-gray-400 text-sm">+91 98765 43210<br>Mon-Sat, 10am to 8pm</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary flex-shrink-0 text-xl">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-semibold mb-1">Email</h4>
+                            <p class="text-gray-400 text-sm">support@mobilewala.com<br>sales@mobilewala.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="lg:col-span-2 glass-card p-8 rounded-3xl gsap-hidden contact-form">
+                    <form class="space-y-6" onsubmit="event.preventDefault();">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-sm text-gray-400 ml-1">Full Name</label>
+                                <input type="text" placeholder="John Doe" class="w-full bg-dark/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors focus:ring-1 focus:ring-primary">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm text-gray-400 ml-1">Email Address</label>
+                                <input type="email" placeholder="john@example.com" class="w-full bg-dark/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors focus:ring-1 focus:ring-primary">
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm text-gray-400 ml-1">Subject</label>
+                            <input type="text" placeholder="How can we help?" class="w-full bg-dark/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors focus:ring-1 focus:ring-primary">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm text-gray-400 ml-1">Message</label>
+                            <textarea rows="4" placeholder="Your message here..." class="w-full bg-dark/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors focus:ring-1 focus:ring-primary resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="bg-gradient-custom text-white w-full py-3 rounded-lg font-semibold neon-btn shadow-lg mt-2">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark border-t border-gray-800 pt-16 pb-8 relative z-10">
+        <div class="container mx-auto px-6 md:px-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <!-- Brand Info -->
+                <div class="space-y-4">
+                    <a href="#" class="text-2xl font-bold tracking-wider text-white flex items-center gap-2">
+                        <i class="fa-solid fa-bolt text-primary"></i>
+                        MOBILE<span class="text-gradient">WALA</span>
+                    </a>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Your ultimate destination for premium electronics, offering the latest technology with unbeatable prices and stellar customer service.
+                    </p>
+                    <div class="flex space-x-4 pt-2">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-secondary hover:text-white transition-all"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-red-600 hover:text-white transition-all"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-white font-semibold mb-6 text-lg">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="text-gray-400 hover:text-primary transition-colors text-sm">Home</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-primary transition-colors text-sm">About Us</a></li>
+                        <li><a href="#products" class="text-gray-400 hover:text-primary transition-colors text-sm">Shop</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-primary transition-colors text-sm">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors text-sm">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Categories -->
+                <div>
+                    <h4 class="text-white font-semibold mb-6 text-lg">Categories</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors text-sm">Smartphones</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors text-sm">Laptops & PCs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors text-sm">Audio & Headphones</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors text-sm">Smart Watches</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors text-sm">Accessories</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="text-white font-semibold mb-6 text-lg">Newsletter</h4>
+                    <p class="text-gray-400 text-sm mb-4">Subscribe to receive updates, access to exclusive deals, and more.</p>
+                    <form onsubmit="event.preventDefault();" class="relative">
+                        <input type="email" placeholder="Enter your email" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-primary pr-12">
+                        <button type="submit" class="absolute right-1 top-1 bottom-1 bg-primary text-white px-3 rounded-md hover:bg-cyan-600 transition-colors">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2026 MOBILEWALA. All rights reserved.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <i class="fa-brands fa-cc-visa text-2xl hover:text-gray-300 transition-colors"></i>
+                    <i class="fa-brands fa-cc-mastercard text-2xl hover:text-gray-300 transition-colors"></i>
+                    <i class="fa-brands fa-cc-paypal text-2xl hover:text-gray-300 transition-colors"></i>
+                    <i class="fa-brands fa-cc-apple-pay text-2xl hover:text-gray-300 transition-colors"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- GSAP Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        // Keyframe Animation embedded in JS for floating effect
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0% { transform: translate(-50%, -50%) translateY(0px); }
+                50% { transform: translate(-50%, -50%) translateY(-20px); }
+                100% { transform: translate(-50%, -50%) translateY(0px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const links = document.querySelectorAll('.mobile-link');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Sticky Navbar effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg', 'bg-darker/80');
+                navbar.classList.remove('py-4');
+                navbar.classList.add('py-2');
+            } else {
+                navbar.classList.remove('shadow-lg', 'bg-darker/80');
+                navbar.classList.add('py-4');
+                navbar.classList.remove('py-2');
+            }
+        });
+
+        // Initialize GSAP
+        document.addEventListener("DOMContentLoaded", (event) => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // 1. Initial Load Animations
+            
+            // Unhide initial elements
+            document.querySelectorAll('.hero-content, .hero-image').forEach(el => el.classList.remove('gsap-hidden'));
+
+            const initTl = gsap.timeline();
+
+            // Navbar drop-in
+            initTl.from(".nav-brand", { y: -20, opacity: 0, duration: 0.6, ease: "power2.out" })
+                  .from(".nav-links li", { y: -20, opacity: 0, duration: 0.4, stagger: 0.1, ease: "power2.out" }, "-=0.4");
+
+            // Hero content reveal
+            initTl.from(".hero-content > *", { 
+                y: 30, 
+                opacity: 0, 
+                duration: 0.8, 
+                stagger: 0.15, 
+                ease: "power3.out" 
+            }, "-=0.2");
+
+            // Hero image reveal
+            initTl.from(".hero-image", { 
+                x: 50, 
+                opacity: 0, 
+                duration: 1, 
+                ease: "power3.out" 
+            }, "-=0.8");
+
+            // 2. Scroll Trigger Animations
+
+            // Reusable function to reveal sections
+            const revealSection = (triggerSelector, targetElements, yOffset = 50) => {
+                const trigger = document.querySelector(triggerSelector);
+                if (!trigger) return;
+                
+                // Remove hidden class before animation starts
+                const targets = trigger.querySelectorAll(targetElements);
+                targets.forEach(el => el.classList.remove('gsap-hidden'));
+
+                gsap.from(targets, {
+                    scrollTrigger: {
+                        trigger: triggerSelector,
+                        start: "top 80%", // Trigger when top of section hits 80% of viewport
+                    },
+                    y: yOffset,
+                    opacity: 0,
+                    duration: 0.8,
+                    stagger: 0.15,
+                    ease: "power2.out"
+                });
+            };
+
+            // Apply scroll animations
+            revealSection('#categories', '.section-header, .category-card');
+            revealSection('#products', '.section-header, .product-card');
+            
+            // Specific handling for Offers Banner to slide up smoothly
+            const offerBanner = document.querySelector('.offer-banner');
+            if(offerBanner) {
+                offerBanner.classList.remove('gsap-hidden');
+                gsap.from(offerBanner, {
+                    scrollTrigger: {
+                        trigger: '#offers',
+                        start: "top 75%",
+                    },
+                    y: 80,
+                    opacity: 0,
+                    scale: 0.95,
+                    duration: 1,
+                    ease: "power3.out"
+                });
+            }
+
+            // About Section
+            const aboutImage = document.querySelector('.about-image');
+            const aboutText = document.querySelector('.about-text');
+            if(aboutImage && aboutText) {
+                aboutImage.classList.remove('gsap-hidden');
+                aboutText.classList.remove('gsap-hidden');
+                
+                gsap.from(aboutImage, {
+                    scrollTrigger: { trigger: '#about', start: "top 75%" },
+                    x: -50, opacity: 0, duration: 0.8, ease: "power2.out"
+                });
+                
+                gsap.from(aboutText, {
+                    scrollTrigger: { trigger: '#about', start: "top 75%" },
+                    x: 50, opacity: 0, duration: 0.8, ease: "power2.out", delay: 0.2
+                });
+            }
+
+            // Contact Section
+            revealSection('#contact', '.section-header, .contact-info > div, .contact-form');
+        });
+        function filterProducts(category){
+
+        const products = document.querySelectorAll('.product-card');
+
+        products.forEach(product => {
+
+        if(category === "all"){
+        product.style.display = "block";
+        }
+        else if(product.dataset.category === category){
+        product.style.display = "block";
+        }
+        else{
+        product.style.display = "none";
+        }
+
+        });
+
+        }
+    </script>
+</body>
+</html>
